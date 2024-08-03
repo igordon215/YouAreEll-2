@@ -14,18 +14,31 @@ import controllers.TransactionController;
 
 // URLShell is a Console view for youareell.YouAreEll.
 public class URLShell {
+    private YouAreEll urll;
+    private List<String> history;
+    private int index;
+
+    public URLShell() {
+        this.urll = new YouAreEll(new TransactionController(
+                new MessageController(ServerController.shared()),
+                new IdController(ServerController.shared())));
+        this.history = new ArrayList<>();
+        this.index = 0;
+    }
+
     public static void prettyPrint(String output) {
         // yep, make an effort to format things nicely, eh?
         System.out.println(output);
     }
-
 
     public static void main(String[] args) throws java.io.IOException {
         new URLShell().run();
     }
 
     public void run() throws IOException {
-        YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(ServerController.shared()), 
+
+        YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(ServerController.shared()),
+
         new IdController(ServerController.shared())));
         
         String commandLine;
@@ -35,6 +48,9 @@ public class URLShell {
         ProcessBuilder pb = new ProcessBuilder();
         List<String> history = new ArrayList<String>();
         int index = 0;
+
+
+
         //we break out with <ctrl c>
         while (true) {
             //read what the user enters
@@ -92,12 +108,25 @@ public class URLShell {
 
                 }//!<integer value i> command
                 // there is BUG in this code, can you find it?
+//                else if (list.get(list.size() - 1).charAt(0) == '!') {
+//                    int b = Character.getNumericValue(list.get(list.size() - 1).charAt(1));
+//                    if (b <= history.size())//check if integer entered isn't bigger than history size
+//                        pb.command(history.get(b));
+//                } else {
+//                    pb.command(list);
+//                }
                 else if (list.get(list.size() - 1).charAt(0) == '!') {
-                    int b = Character.getNumericValue(list.get(list.size() - 1).charAt(1));
-                    if (b <= history.size())//check if integer entered isn't bigger than history size
-                        pb.command(history.get(b));
-                } else {
-                    pb.command(list);
+                    String numberStr = list.get(list.size() - 1).substring(1);
+                    try {
+                        int b = Integer.parseInt(numberStr);
+                        if (b >= 0 && b < history.size()) {
+                            pb.command(history.get(b));
+                        } else {
+                            System.out.println("Invalid history index");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid history command");
+                    }
                 }
 
                 // // wait, wait, what curiousness is this?
