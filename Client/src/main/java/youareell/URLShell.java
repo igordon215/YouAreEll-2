@@ -124,17 +124,22 @@ public class URLShell {
                     continue;
                 }
 
+
+
+
                 if (list.get(0).contains("putid")) {
                     boolean hasArgs = list.size() == 3;
                     if (hasArgs) {
-                        String strGit = list.get(1);
-                        String strNewName = list.get(2);
-                        urll.putId(strGit, strNewName);
+                        String github = list.get(1);
+                        String newName = list.get(2);
+                        urll.putId(github, newName);
                     }
                     if (list.size() == 1 || list.size() == 2) {
                         System.out.println("No put field given.");
                     }
                 }
+
+
 
                 if (list.get(0).contains("postmessage")) {
                     boolean hasArgs = list.size() == 4;

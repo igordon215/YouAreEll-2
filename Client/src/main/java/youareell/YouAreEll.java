@@ -51,8 +51,8 @@ public class YouAreEll {
         return gettingId;
     }
 
-    public String putId(String name, String newName) {
-        String puttingId = tt.putId(name, newName);
+    public String putId(String github, String newName) {
+        String puttingId = tt.putId(github, newName);
         return puttingId;
     }
 

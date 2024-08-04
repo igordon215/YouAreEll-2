@@ -32,21 +32,17 @@ public class TransactionController {
     }
 
     public String putId(String gitID, String newName) {
-        //find the correct id via arrayID loop
         ArrayList<Id> allIdsList = idCtrl.getIds();
         Id idToFind = null;
         for (Id mid : allIdsList) {
             if (mid.getGithub().equals(gitID)) {
-                System.out.println("I found it!");
+                System.out.println("✅ Name Found!");
                 idToFind = mid;
                 break;
             }
         }
-        //new name set
         idCtrl.putId(idToFind, newName);
-        //print name change
         System.out.println("Name changed = " + newName + " for provided Github handle: " + gitID);
-        //id to be returned
         return newName;
     }
 
