@@ -60,4 +60,16 @@ public class IdController {
     }
 
 
+    public boolean deleteId(String github) {
+        try {
+            String response = sc.sendRequest("/ids/" + github, "DELETE", "");
+            return response.contains("success") || response.isEmpty();
+        } catch (Exception e) {
+            System.out.println("Error deleting ID: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+
 }

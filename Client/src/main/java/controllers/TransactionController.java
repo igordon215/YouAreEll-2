@@ -50,9 +50,9 @@ public class TransactionController {
         return newName;
     }
 
-    public String deleteId(String id) {
-        return null;
-    }
+//    public String deleteId(String id) {
+//        return null;
+//    }
 
     public String postId(String idToRegister, String name, String githubName) {
         Id tid = new Id(idToRegister, name, githubName);
@@ -97,4 +97,19 @@ public class TransactionController {
         msgCtrl.postMessage(fromID, toID, msgTest);
         return "Message posted.";
     }
+
+
+
+
+    public String deleteId(String github) {
+        boolean success = idCtrl.deleteId(github);
+        if (success) {
+            return "ID with github " + github + " successfully deleted.";
+        } else {
+            return "Failed to delete ID with github " + github + ".";
+        }
+    }
+
+
+
 }

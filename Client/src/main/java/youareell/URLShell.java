@@ -151,6 +151,9 @@ public class URLShell {
                 }
 
 
+
+
+
                 if (list.get(0).equals("getmessages")) {
                     if (list.size() == 2) {
                         String result = urll.getMessagesForId(list.get(1));
@@ -163,7 +166,15 @@ public class URLShell {
 
 
 
-
+                if (list.get(0).equals("deleteid")) {
+                    if (list.size() == 2) {
+                        String result = urll.deleteId(list.get(1));
+                        URLShell.prettyPrint(result);
+                    } else {
+                        System.out.println("Usage: deleteid <github>");
+                    }
+                    continue;
+                }
 
 
 

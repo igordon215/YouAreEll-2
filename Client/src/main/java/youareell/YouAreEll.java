@@ -74,5 +74,11 @@ public class YouAreEll {
 
 
 
+    public String deleteId(String github) {
+        return tt.deleteId(github);
+    }
+
+
+
 
 }
