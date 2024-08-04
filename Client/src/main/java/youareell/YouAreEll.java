@@ -55,5 +55,12 @@ public class YouAreEll {
         return puttingId;
     }
 
+    public String postMessage(String body, String from, String to){
+        String createdPost = tt.postMessage(body,from,to);
+        return createdPost;
+    }
+
+
+
 
 }

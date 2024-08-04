@@ -38,8 +38,8 @@ public class URLShell {
 
     public void run() throws IOException {
         YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(ServerController.shared()),
-            new IdController(ServerController.shared())));
-        
+                new IdController(ServerController.shared())));
+
         String commandLine;
         BufferedReader console = new BufferedReader
                 (new InputStreamReader(System.in));
@@ -102,39 +102,51 @@ public class URLShell {
 
                 if (list.get(0).contains("postid")) {
                     boolean hasArgs = list.size() == 4;
-                    if (hasArgs){
+                    if (hasArgs) {
                         String uid = list.get(1);
                         String name = list.get(2);
                         String github = list.get(3);
-                        urll.postId(uid,name,github);
+                        urll.postId(uid, name, github);
                     }
                     continue;
                 }
 
-                if(list.get(0).contains("getid")){
+                if (list.get(0).contains("getid")) {
                     boolean hasArgs = list.size() == 2;
                     if (hasArgs) {
                         urll.getId(list.get(1));
                     }
-                    if (list.size() == 1){
+                    if (list.size() == 1) {
                         System.out.println("Github handle not given.");
                     }
                     continue;
                 }
 
-                if (list.get(0).contains("putid")){
+                if (list.get(0).contains("putid")) {
                     boolean hasArgs = list.size() == 3;
-                    if (hasArgs){
+                    if (hasArgs) {
                         String strGit = list.get(1);
                         String strNewName = list.get(2);
-                        urll.putId(strGit,strNewName);
+                        urll.putId(strGit, strNewName);
                     }
-                    if (list.size() == 1 || list.size() == 2){
+                    if (list.size() == 1 || list.size() == 2) {
                         System.out.println("No put field given.");
                     }
-                    //logic to change name on id
                 }
 
+                if (list.get(0).contains("postmessage")) {
+                    boolean hasArgs = list.size() == 4;
+                    if (hasArgs) {
+                        String body = list.get(1);
+                        String from = list.get(2);
+                        String to = list.get(3);
+                        urll.postMessage(body, from, to);
+                        System.out.println("Message posted");
+                    }
+                    if (list.size() >= 1 && list.size() <= 3) {
+                        System.out.println("Proper fields not met to postMessage.");
+                    }
+                }
 
 
                 //!! command returns the last command in history
