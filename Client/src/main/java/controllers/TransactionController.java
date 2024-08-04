@@ -64,10 +64,6 @@ public class TransactionController {
         return msgCtrl.getMessages();
     }
 
-
-
-
-
     public List<Message> getMessagesFromId(String github) {
         Id id = getIdByGithub(github);
         if (id != null) {
@@ -86,6 +82,38 @@ public class TransactionController {
         }
         return null;
     }
+
+
+
+    public Message getMessageForSequence(String seq) {
+        return msgCtrl.getMessageForSequence(seq);
+    }
+
+    public List<Message> getMessagesFromFriend(String myGithub, String friendGithub) {
+        Id myId = getIdByGithub(myGithub);
+        Id friendId = getIdByGithub(friendGithub);
+        if (myId != null && friendId != null) {
+            return msgCtrl.getMessagesFromFriend(myId, friendId);
+        }
+        System.out.println("One or both IDs not found.");
+        return new ArrayList<>();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

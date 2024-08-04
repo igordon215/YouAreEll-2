@@ -70,6 +70,13 @@ public class MessageController {
 
 
     public Message getMessageForSequence(String seq) {
+        String jsonInput = sc.sendRequest("/messages/" + seq, "GET", "");
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(jsonInput, Message.class);
+        } catch (JsonProcessingException e) {
+            System.out.println("Error processing JSON from response: " + e.getMessage());
+        }
         return null;
     }
 
@@ -80,7 +87,16 @@ public class MessageController {
 
 
     public ArrayList<Message> getMessagesFromFriend(Id myId, Id friendId) {
-        return null;
+        String jsonInput = sc.sendRequest("/ids/" + myId.getGithub() + "/from/" + friendId.getGithub(), "GET", "");
+        ObjectMapper mapper = new ObjectMapper();
+        List<Message> msgs;
+        try {
+            msgs = mapper.readValue(jsonInput, mapper.getTypeFactory().constructCollectionType(List.class, Message.class));
+            return new ArrayList<>(msgs);
+        } catch (JsonProcessingException e) {
+            System.out.println("Error processing JSON from response: " + e.getMessage());
+        }
+        return new ArrayList<>();
     }
 
 

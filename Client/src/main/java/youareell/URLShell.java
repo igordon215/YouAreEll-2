@@ -37,7 +37,7 @@ public class URLShell {
     }
 
     public void run() throws IOException {
-        System.out.println("Welcome to Under-A-Rock! Type 'help' or '?' for available commands.");
+        System.out.println("\n \nWelcome to Under-A-Rock! Type 'help' or '?' for available commands.");
         YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(ServerController.shared()),
                 new IdController(ServerController.shared())));
 
@@ -181,6 +181,37 @@ public class URLShell {
 
 
 
+
+                if (list.get(0).equals("getmessageseq")) {
+                    if (list.size() == 2) {
+                        String result = urll.getMessageForSequence(list.get(1));
+                        URLShell.prettyPrint(result);
+                    } else {
+                        System.out.println("Usage: getmessageseq <sequence>");
+                    }
+                    continue;
+                }
+
+                if (list.get(0).equals("getmessagesfromfriend")) {
+                    if (list.size() == 3) {
+                        String result = urll.getMessagesFromFriend(list.get(1), list.get(2));
+                        URLShell.prettyPrint(result);
+                    } else {
+                        System.out.println("Usage: getmessagesfromfriend <your_github> <friend_github>");
+                    }
+                    continue;
+                }
+
+
+
+
+
+
+
+
+
+
+
                 // HELP MENU
                 if (list.get(0).equals("help") || list.get(0).equals("?")) {
                     displayHelpMenu();
@@ -265,6 +296,8 @@ public class URLShell {
         System.out.println("💌 message-magic commands:");
         System.out.println("   messages            - View recent messages");
         System.out.println("   postmessage <body> <from> <to>  - Post a new message");
+        System.out.println("   getmessageseq <sequence>  - Get a specific message by sequence number");
+        System.out.println("   getmessagesfromfriend <your_github> <friend_github>  - Get messages from a friend");
         System.out.println();
         System.out.println("🕰️ time-travel commands:");
         System.out.println("   history             - View command history");

@@ -81,4 +81,29 @@ public class YouAreEll {
 
 
 
+
+
+
+
+    public String getMessageForSequence(String seq) {
+        Message msg = tt.getMessageForSequence(seq);
+        return (msg != null) ? msg.toString() : "No message found for sequence: " + seq;
+    }
+
+    public String getMessagesFromFriend(String myGithub, String friendGithub) {
+        List<Message> messages = tt.getMessagesFromFriend(myGithub, friendGithub);
+        StringBuilder sb = new StringBuilder();
+        for (Message msg : messages) {
+            sb.append(msg.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
+
+
+
+
+
+
+
 }
