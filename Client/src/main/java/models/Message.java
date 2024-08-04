@@ -1,6 +1,11 @@
 package models;
 
-/* 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
+
+/*
  * POJO for an Message object
  *
  *   {
@@ -13,7 +18,8 @@ package models;
 
 *
  */
-public class Message implements Comparable<Message> {
+public class
+Message implements Comparable<Message> {
     // sample from server
     // {"sequence":"ea9ccec875bbbbdcca464eb59718ae7cba9def95","timestamp":"2023-08-06T18:45:21.083445025Z",
     // "fromid":"xt0fer","toid":"torvalds","message":"Can you hear me now?!"}
@@ -45,9 +51,34 @@ public class Message implements Comparable<Message> {
         this.toid = "";
     }
 
+    public static Message fromJson(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, Message.class);
+    }
+
+    public String toJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(this);
+    }
+
+    public static ArrayList<Message> fromJsonArray(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(ArrayList.class, Message.class));
+    }
+
+//    @Override
+//    public String toString() {
+//        return "to: " + this.toid + "\nfrom: "+ this.fromid + "\n" + this.message + "\n----\n";
+//    }
+
     @Override
     public String toString() {
-        return "to: " + this.toid + "\nfrom: "+ this.fromid + "\n" + this.message + "\n----\n";
+        return "Sequence: " + this.sequence +
+                "\nTimestamp: " + this.timestamp +
+                "\nFrom: " + this.fromid +
+                "\nTo: " + this.toid +
+                "\nMessage: " + this.message +
+                "\n----\n";
     }
 
     @Override
@@ -86,4 +117,19 @@ public class Message implements Comparable<Message> {
     public String getSequence() {
         return sequence;
     }
+
+
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
+
+
+
+
+
 }

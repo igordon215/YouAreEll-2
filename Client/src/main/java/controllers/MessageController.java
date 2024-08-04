@@ -21,25 +21,36 @@ public class MessageController {
         sc = shared;
         messagesSeen = new HashSet<Message>();
     }
-    public ArrayList<Message> getMessages() {
-       String jsonInput = sc.getMessages();
-        // convert json to array of Ids
-        ObjectMapper mapper = new ObjectMapper();
-        List<Message> msgs;
-        try {
-            msgs = mapper.readValue(jsonInput, mapper.getTypeFactory().constructCollectionType(List.class, Message.class));
+//    public ArrayList<Message> getMessages() {
+//       String jsonInput = sc.getMessages();
+//        // convert json to array of Ids
+//        ObjectMapper mapper = new ObjectMapper();
+//        List<Message> msgs;
+//        try {
+//            msgs = mapper.readValue(jsonInput, mapper.getTypeFactory().constructCollectionType(List.class, Message.class));
+//
+//            ArrayList<Message> msgList = new ArrayList<>(msgs);
+//            // return array of Ids
+//            return msgList;
+//        } catch (JsonMappingException e) {
+//            System.out.println("Error processing JSON from response: " + e.getMessage());
+//        } catch (JsonProcessingException e) {
+//            System.out.println("Error processing JSON from response: " + e.getMessage());
+//        }
+//        return null;
+//    }
 
-            ArrayList<Message> msgList = new ArrayList<>(msgs);
-            // return array of Ids
-            return msgList;
-        } catch (JsonMappingException e) {
-            System.out.println("Error processing JSON from response: " + e.getMessage());
+
+
+    public ArrayList<Message> getMessages() {
+        String jsonInput = sc.getMessages();
+        try {
+            return Message.fromJsonArray(jsonInput);
         } catch (JsonProcessingException e) {
             System.out.println("Error processing JSON from response: " + e.getMessage());
         }
-        return null;
+        return new ArrayList<>();
     }
-
 
 
 
