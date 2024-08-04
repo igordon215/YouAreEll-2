@@ -292,6 +292,7 @@ public class URLShell {
         System.out.println("   postid <uid> <name> <github>  - Register a new ID");
         System.out.println("   getid <github>      - Get info for a specific ID");
         System.out.println("   putid <github> <newName>  - Update an ID's name");
+        System.out.println("   deleteid <github>   - Delete an ID");
         System.out.println();
         System.out.println("💌 message-magic commands:");
         System.out.println("   messages            - View recent messages");
@@ -306,7 +307,7 @@ public class URLShell {
         System.out.println();
         System.out.println("🚪 exit                - Leave this awesome place");
         System.out.println();
-        System.out.println("Remember, with great power comes great responsibility! 🦸‍♂️");
+        System.out.println("Remember, with great power comes great responsibility! 🦸‍");
     }
 
 }
