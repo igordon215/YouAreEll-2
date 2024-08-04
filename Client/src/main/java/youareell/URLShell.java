@@ -37,6 +37,7 @@ public class URLShell {
     }
 
     public void run() throws IOException {
+        System.out.println("Welcome to Under-A-Rock! Type 'help' or '?' for available commands.");
         YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(ServerController.shared()),
                 new IdController(ServerController.shared())));
 
@@ -51,7 +52,8 @@ public class URLShell {
         //we break out with <ctrl c>
         while (true) {
             //read what the user enters
-            System.out.println("cmd? ");
+            //System.out.println("cmd? ");
+            System.out.print("🪨 Under-A-Rock > ");
             commandLine = console.readLine();
 
             //input parsed into array of strings(command and arguments)
@@ -148,6 +150,12 @@ public class URLShell {
                     }
                 }
 
+                // HELP MENU
+                if (list.get(0).equals("help") || list.get(0).equals("?")) {
+                    displayHelpMenu();
+                    continue;
+                }
+
 
                 //!! command returns the last command in history
                 if (list.get(list.size() - 1).equals("!!")) {
@@ -211,6 +219,30 @@ public class URLShell {
         }
 
 
+    }
+
+    private void displayHelpMenu() {
+        System.out.println("\n🌟 Welcome to the Under-A-Rock Command Center! 🌟");
+        System.out.println("Here are the cosmic commands at your disposal:");
+        System.out.println();
+        System.out.println("🆔 id-tastic commands:");
+        System.out.println("   ids                 - View all registered IDs");
+        System.out.println("   postid <uid> <name> <github>  - Register a new ID");
+        System.out.println("   getid <github>      - Get info for a specific ID");
+        System.out.println("   putid <github> <newName>  - Update an ID's name");
+        System.out.println();
+        System.out.println("💌 message-magic commands:");
+        System.out.println("   messages            - View recent messages");
+        System.out.println("   postmessage <body> <from> <to>  - Post a new message");
+        System.out.println();
+        System.out.println("🕰️ time-travel commands:");
+        System.out.println("   history             - View command history");
+        System.out.println("   !!                  - Repeat the last command");
+        System.out.println("   !<number>           - Repeat a specific command from history");
+        System.out.println();
+        System.out.println("🚪 exit                - Leave this awesome place");
+        System.out.println();
+        System.out.println("Remember, with great power comes great responsibility! 🦸‍♂️");
     }
 
 }
