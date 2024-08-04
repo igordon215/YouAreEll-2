@@ -150,6 +150,26 @@ public class URLShell {
                     }
                 }
 
+
+                if (list.get(0).equals("getmessages")) {
+                    if (list.size() == 2) {
+                        String result = urll.getMessagesForId(list.get(1));
+                        URLShell.prettyPrint(result);
+                    } else {
+                        System.out.println("Usage: getmessages <github>");
+                    }
+                    continue;
+                }
+
+
+
+
+
+
+
+
+
+
                 // HELP MENU
                 if (list.get(0).equals("help") || list.get(0).equals("?")) {
                     displayHelpMenu();

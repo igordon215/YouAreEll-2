@@ -64,9 +64,33 @@ public class TransactionController {
         return msgCtrl.getMessages();
     }
 
-    public List<Message> getMessagesFromId(Id id) {
-        return msgCtrl.getMessagesForId(id);
+
+
+
+
+    public List<Message> getMessagesFromId(String github) {
+        Id id = getIdByGithub(github);
+        if (id != null) {
+            return msgCtrl.getMessagesForId(id);
+        }
+        System.out.println("No ID found for github: " + github);
+        return new ArrayList<>();
     }
+
+    private Id getIdByGithub(String github) {
+        List<Id> allIds = idCtrl.getIds();
+        for (Id id : allIds) {
+            if (id.getGithub().equals(github)) {
+                return id;
+            }
+        }
+        return null;
+    }
+
+
+
+
+
 
     public String postMessage(String message, String fromID, String toID){
         Message msgTest = new Message(message,fromID,toID);

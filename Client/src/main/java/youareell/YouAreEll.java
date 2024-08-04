@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import controllers.*;
+import models.Message;
 
 public class YouAreEll {
     private TransactionController tt;
@@ -58,6 +59,17 @@ public class YouAreEll {
     public String postMessage(String body, String from, String to){
         String createdPost = tt.postMessage(body,from,to);
         return createdPost;
+    }
+
+
+
+    public String getMessagesForId(String github) {
+        List<Message> messages = tt.getMessagesFromId(github);
+        StringBuilder sb = new StringBuilder();
+        for (Message msg : messages) {
+            sb.append(msg.toString()).append("\n");
+        }
+        return sb.toString();
     }
 
 

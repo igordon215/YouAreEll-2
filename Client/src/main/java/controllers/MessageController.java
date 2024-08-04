@@ -39,15 +39,45 @@ public class MessageController {
         }
         return null;
     }
-    public ArrayList<Message> getMessagesForId(Id Id) {
-        return null;
+
+
+
+
+
+    public ArrayList<Message> getMessagesForId(Id id) {
+        String jsonInput = sc.sendRequest("/ids/" + id.getGithub() + "/messages", "GET", "");
+        ObjectMapper mapper = new ObjectMapper();
+        List<Message> msgs;
+        try {
+            msgs = mapper.readValue(jsonInput, mapper.getTypeFactory().constructCollectionType(List.class, Message.class));
+            ArrayList<Message> msgList = new ArrayList<>(msgs);
+            return msgList;
+        } catch (JsonProcessingException e) {
+            System.out.println("Error processing JSON from response: " + e.getMessage());
+        }
+        return new ArrayList<>();
     }
+
+
+
+
+
+
+
+
+
+
+
+
     public Message getMessageForSequence(String seq) {
         return null;
     }
     public ArrayList<Message> getMessagesFromFriend(Id myId, Id friendId) {
         return null;
     }
+
+
+
 
     public Message postMessage(String myId, String toId, Message msg) {
         ObjectMapper om = new ObjectMapper();
