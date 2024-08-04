@@ -111,6 +111,17 @@ public class URLShell {
                     continue;
                 }
 
+                if(list.get(0).contains("getid")){
+                    boolean hasArgs = list.size() == 2;
+                    if (hasArgs) {
+                        urll.getId(list.get(1));
+                    }
+                    if (list.size() == 1){
+                        System.out.println("No git handle given.");
+                    }
+                    continue;
+                }
+
 
 
                 //!! command returns the last command in history
