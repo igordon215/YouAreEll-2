@@ -14,21 +14,22 @@ import controllers.TransactionController;
 
 // URLShell is a Console view for youareell.YouAreEll.
 public class URLShell {
-    private YouAreEll urll;
-    private List<String> history;
-    private int index;
+//    private YouAreEll urll;
+//    private List<String> history;
+//    private int index;
 
-    public URLShell() {
-        this.urll = new YouAreEll(new TransactionController(
-                new MessageController(ServerController.shared()),
-                new IdController(ServerController.shared())));
-        this.history = new ArrayList<>();
-        this.index = 0;
-    }
+//    public URLShell() {
+//        this.urll = new YouAreEll(new TransactionController(
+//                new MessageController(ServerController.shared()),
+//                new IdController(ServerController.shared())));
+//        this.history = new ArrayList<>();
+//        this.index = 0;
+//    }
 
     public static void prettyPrint(String output) {
-        // yep, make an effort to format things nicely, eh?
+        System.out.println("--------------------");
         System.out.println(output);
+        System.out.println("--------------------");
     }
 
     public static void main(String[] args) throws java.io.IOException {
@@ -36,10 +37,8 @@ public class URLShell {
     }
 
     public void run() throws IOException {
-
         YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(ServerController.shared()),
-
-        new IdController(ServerController.shared())));
+            new IdController(ServerController.shared())));
         
         String commandLine;
         BufferedReader console = new BufferedReader
@@ -48,8 +47,6 @@ public class URLShell {
         ProcessBuilder pb = new ProcessBuilder();
         List<String> history = new ArrayList<String>();
         int index = 0;
-
-
 
         //we break out with <ctrl c>
         while (true) {
@@ -101,6 +98,20 @@ public class URLShell {
                     continue;
                 }
                 // you need to add a bunch more.
+
+
+                if (list.get(0).contains("postid")) {
+                    boolean hasArgs = list.size() == 4;
+                    if (hasArgs){
+                        String uid = list.get(1);
+                        String name = list.get(2);
+                        String github = list.get(3);
+                        urll.postId(uid,name,github);
+                    }
+                    continue;
+                }
+
+
 
                 //!! command returns the last command in history
                 if (list.get(list.size() - 1).equals("!!")) {
