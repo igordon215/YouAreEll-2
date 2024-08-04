@@ -13,7 +13,7 @@ import models.Id;
 public class IdController {
     ServerController sc;
     private HashMap<String, Id> allIds;
-
+    private static ObjectMapper objectMapper = new ObjectMapper();
     Id myId;
 
     public IdController(ServerController shared) {
@@ -48,8 +48,16 @@ public class IdController {
         return null;
     }
 
-    public Id putId(Id id) {
-        return null;
+    public Id putId(Id id, String toUpdate) {
+        try {
+            id.setName(toUpdate);
+            sc.sendRequest("/ids", "PUT", objectMapper.writeValueAsString(id));
+            return id;
+        } catch (JsonProcessingException exception) {
+            System.out.println("Invalid ID");
+            return null;
+        }
     }
- 
+
+
 }

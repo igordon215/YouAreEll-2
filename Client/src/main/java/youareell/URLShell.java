@@ -117,9 +117,22 @@ public class URLShell {
                         urll.getId(list.get(1));
                     }
                     if (list.size() == 1){
-                        System.out.println("No git handle given.");
+                        System.out.println("Github handle not given.");
                     }
                     continue;
+                }
+
+                if (list.get(0).contains("putid")){
+                    boolean hasArgs = list.size() == 3;
+                    if (hasArgs){
+                        String strGit = list.get(1);
+                        String strNewName = list.get(2);
+                        urll.putId(strGit,strNewName);
+                    }
+                    if (list.size() == 1 || list.size() == 2){
+                        System.out.println("No put field given.");
+                    }
+                    //logic to change name on id
                 }
 
 
