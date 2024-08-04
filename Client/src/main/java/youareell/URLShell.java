@@ -2,9 +2,9 @@ package youareell;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import controllers.IdController;
@@ -12,19 +12,16 @@ import controllers.MessageController;
 import controllers.ServerController;
 import controllers.TransactionController;
 
-// URLShell is a Console view for youareell.YouAreEll.
 public class URLShell {
-//    private YouAreEll urll;
-//    private List<String> history;
-//    private int index;
+    private YouAreEll urll;
+    private List<String> history;
 
-//    public URLShell() {
-//        this.urll = new YouAreEll(new TransactionController(
-//                new MessageController(ServerController.shared()),
-//                new IdController(ServerController.shared())));
-//        this.history = new ArrayList<>();
-//        this.index = 0;
-//    }
+    public URLShell() {
+        this.urll = new YouAreEll(new TransactionController(
+                new MessageController(ServerController.shared()),
+                new IdController(ServerController.shared())));
+        this.history = new ArrayList<>();
+    }
 
     public static void prettyPrint(String output) {
         System.out.println("--------------------");
@@ -38,29 +35,14 @@ public class URLShell {
 
     public void run() throws IOException {
         System.out.println("\n \nWelcome to Under-A-Rock! Type 'help' or '?' for available commands.");
-        YouAreEll urll = new YouAreEll(new TransactionController(new MessageController(ServerController.shared()),
-                new IdController(ServerController.shared())));
 
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
         String commandLine;
-        BufferedReader console = new BufferedReader
-                (new InputStreamReader(System.in));
 
-        ProcessBuilder pb = new ProcessBuilder();
-        List<String> history = new ArrayList<String>();
-        int index = 0;
-
-        //we break out with <ctrl c>
         while (true) {
-            //read what the user enters
-            //System.out.println("cmd? ");
             System.out.print("🪨 Under-A-Rock > ");
             commandLine = console.readLine();
 
-            //input parsed into array of strings(command and arguments)
-            String[] commands = commandLine.split(" ");
-            List<String> list = new ArrayList<String>();
-
-            //if the user entered a return, just loop again
             if (commandLine.equals(""))
                 continue;
             if (commandLine.equals("exit")) {
@@ -68,224 +50,128 @@ public class URLShell {
                 break;
             }
 
-            //loop through to see if parsing worked
-            for (int i = 0; i < commands.length; i++) {
-                //System.out.println(commands[i]); //***check to see if parsing/split worked***
-                list.add(commands[i]);
-
-            }
-            //System.out.print(list); //***check to see if list was added correctly***
             history.add(commandLine);
-            try {
-                //display history of shell with index
-                if (list.get(list.size() - 1).equals("history")) {
-                    for (String s : history)
-                        System.out.println((index++) + " " + s);
-                    continue;
-                }
-
-                // Specific Commands.
-
-                // ids
-                if (list.get(0).contains("ids")) {
-                    String results = urll.get_ids();
-                    URLShell.prettyPrint(results);
-                    continue;
-                }
-
-                // messages
-                if (list.get(0).contains("messages")) {
-                    String results = urll.get_messages();
-                    URLShell.prettyPrint(results);
-                    continue;
-                }
-                // you need to add a bunch more.
-
-
-                if (list.get(0).contains("postid")) {
-                    boolean hasArgs = list.size() == 4;
-                    if (hasArgs) {
-                        String uid = list.get(1);
-                        String name = list.get(2);
-                        String github = list.get(3);
-                        urll.postId(uid, name, github);
-                    }
-                    continue;
-                }
-
-                if (list.get(0).contains("getid")) {
-                    boolean hasArgs = list.size() == 2;
-                    if (hasArgs) {
-                        urll.getId(list.get(1));
-                    }
-                    if (list.size() == 1) {
-                        System.out.println("Github handle not given.");
-                    }
-                    continue;
-                }
-
-
-
-
-                if (list.get(0).contains("putid")) {
-                    boolean hasArgs = list.size() == 3;
-                    if (hasArgs) {
-                        String github = list.get(1);
-                        String newName = list.get(2);
-                        urll.putId(github, newName);
-                    }
-                    if (list.size() == 1 || list.size() == 2) {
-                        System.out.println("No put field given.");
-                    }
-                }
-
-
-
-                if (list.get(0).contains("postmessage")) {
-                    boolean hasArgs = list.size() == 4;
-                    if (hasArgs) {
-                        String body = list.get(1);
-                        String from = list.get(2);
-                        String to = list.get(3);
-                        urll.postMessage(body, from, to);
-                        System.out.println("Message posted");
-                    }
-                    if (list.size() >= 1 && list.size() <= 3) {
-                        System.out.println("Proper fields not met to postMessage.");
-                    }
-                }
-
-
-
-
-
-                if (list.get(0).equals("getmessages")) {
-                    if (list.size() == 2) {
-                        String result = urll.getMessagesForId(list.get(1));
-                        URLShell.prettyPrint(result);
-                    } else {
-                        System.out.println("Usage: getmessages <github>");
-                    }
-                    continue;
-                }
-
-
-
-                if (list.get(0).equals("deleteid")) {
-                    if (list.size() == 2) {
-                        String result = urll.deleteId(list.get(1));
-                        URLShell.prettyPrint(result);
-                    } else {
-                        System.out.println("Usage: deleteid <github>");
-                    }
-                    continue;
-                }
-
-
-
-
-
-
-
-                if (list.get(0).equals("getmessageseq")) {
-                    if (list.size() == 2) {
-                        String result = urll.getMessageForSequence(list.get(1));
-                        URLShell.prettyPrint(result);
-                    } else {
-                        System.out.println("Usage: getmessageseq <sequence>");
-                    }
-                    continue;
-                }
-
-                if (list.get(0).equals("getmessagesfromfriend")) {
-                    if (list.size() == 3) {
-                        String result = urll.getMessagesFromFriend(list.get(1), list.get(2));
-                        URLShell.prettyPrint(result);
-                    } else {
-                        System.out.println("Usage: getmessagesfromfriend <your_github> <friend_github>");
-                    }
-                    continue;
-                }
-
-
-
-
-
-
-
-
-
-
-
-                // HELP MENU
-                if (list.get(0).equals("help") || list.get(0).equals("?")) {
-                    displayHelpMenu();
-                    continue;
-                }
-
-
-                //!! command returns the last command in history
-                if (list.get(list.size() - 1).equals("!!")) {
-                    pb.command(history.get(history.size() - 2));
-
-                }//!<integer value i> command
-                // there is BUG in this code, can you find it?
-//                else if (list.get(list.size() - 1).charAt(0) == '!') {
-//                    int b = Character.getNumericValue(list.get(list.size() - 1).charAt(1));
-//                    if (b <= history.size())//check if integer entered isn't bigger than history size
-//                        pb.command(history.get(b));
-//                } else {
-//                    pb.command(list);
-//                }
-                else if (list.get(list.size() - 1).charAt(0) == '!') {
-                    String numberStr = list.get(list.size() - 1).substring(1);
-                    try {
-                        int b = Integer.parseInt(numberStr);
-                        if (b >= 0 && b < history.size()) {
-                            pb.command(history.get(b));
-                        } else {
-                            System.out.println("Invalid history index");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid history command");
-                    }
-                }
-
-                // // wait, wait, what curiousness is this?
-                // Process process = pb.start();
-
-                // //obtain the input stream
-                // InputStream is = process.getInputStream();
-                // InputStreamReader isr = new InputStreamReader(is);
-                // BufferedReader br = new BufferedReader(isr);
-
-                // //read output of the process
-                // String line;
-                // while ((line = br.readLine()) != null)
-                //     System.out.println(line);
-                // br.close();
-
-
-            } finally {
-                // System.out.println("Input Error, Please try again!");
-            }
-
-            //catch ioexception, output appropriate message, resume waiting for input
-            // catch (IOException e) {
-            //     System.out.println("Input Error, Please try again!");
-            // }
-            // So what, do you suppose, is the meaning of this comment?
-            /** The steps are:
-             * 1. parse the input to obtain the command and any parameters
-             * 2. create a ProcessBuilder object
-             * 3. start the process
-             * 4. obtain the output stream
-             * 5. output the contents returned by the command
-             */
-
+            processCommand(commandLine);
         }
+    }
 
+    private void processCommand(String commandLine) {
+        String[] commands = commandLine.split(" ");
+        List<String> list = new ArrayList<>(Arrays.asList(commands));
 
+        if (list.get(0).equals("ids")) {
+            String results = urll.get_ids();
+            URLShell.prettyPrint(results);
+        } else if (list.get(0).equals("messages")) {
+            String results = urll.get_messages();
+            URLShell.prettyPrint(results);
+        } else if (list.get(0).equals("postid")) {
+            if (list.size() == 4) {
+                String uid = list.get(1);
+                String name = list.get(2);
+                String github = list.get(3);
+                String result = urll.postId(uid, name, github);
+                System.out.println(result);
+            } else {
+                System.out.println("Usage: postid <uid> <name> <github>");
+            }
+        } else if (list.get(0).equals("getid")) {
+            if (list.size() == 2) {
+                String result = urll.getId(list.get(1));
+                System.out.println(result);
+            } else {
+                System.out.println("Usage: getid <github>");
+            }
+        } else if (list.get(0).equals("putid")) {
+            if (list.size() == 3) {
+                String github = list.get(1);
+                String newName = list.get(2);
+                String result = urll.putId(github, newName);
+                System.out.println(result);
+            } else {
+                System.out.println("Usage: putid <github> <newName>");
+            }
+        } else if (list.get(0).equals("postmessage")) {
+            if (list.size() == 4) {
+                String body = list.get(1);
+                String from = list.get(2);
+                String to = list.get(3);
+                String result = urll.postMessage(body, from, to);
+                System.out.println(result);
+            } else {
+                System.out.println("Usage: postmessage <body> <from> <to>");
+            }
+        } else if (list.get(0).equals("getmessages")) {
+            if (list.size() == 2) {
+                String result = urll.getMessagesForId(list.get(1));
+                URLShell.prettyPrint(result);
+            } else {
+                System.out.println("Usage: getmessages <github>");
+            }
+        } else if (list.get(0).equals("deleteid")) {
+            if (list.size() == 2) {
+                String result = urll.deleteId(list.get(1));
+                URLShell.prettyPrint(result);
+            } else {
+                System.out.println("Usage: deleteid <github>");
+            }
+        } else if (list.get(0).equals("getmessageseq")) {
+            if (list.size() == 2) {
+                String result = urll.getMessageForSequence(list.get(1));
+                URLShell.prettyPrint(result);
+            } else {
+                System.out.println("Usage: getmessageseq <sequence>");
+            }
+        } else if (list.get(0).equals("getmessagesfromfriend")) {
+            if (list.size() == 3) {
+                String result = urll.getMessagesFromFriend(list.get(1), list.get(2));
+                URLShell.prettyPrint(result);
+            } else {
+                System.out.println("Usage: getmessagesfromfriend <your_github> <friend_github>");
+            }
+        } else if (list.get(0).equals("help") || list.get(0).equals("?")) {
+            displayHelpMenu();
+        } else if (list.get(0).equals("history")) {
+            displayHistory();
+        } else if (list.get(0).equals("!!")) {
+            executeLastCommand();
+        } else if (list.get(0).startsWith("!")) {
+            executeHistoryCommand(list.get(0));
+        } else {
+            System.out.println("Unknown command. Type 'help' or '?' for available commands.");
+        }
+    }
+
+    private void displayHistory() {
+        for (int i = 0; i < history.size(); i++) {
+            System.out.println(i + " " + history.get(i));
+        }
+    }
+
+    private void executeLastCommand() {
+        if (history.size() > 1) {
+            String lastCommand = history.get(history.size() - 2);
+            System.out.println("Executing: " + lastCommand);
+            processCommand(lastCommand);
+        } else {
+            System.out.println("No previous command in history");
+        }
+    }
+
+    private void executeHistoryCommand(String command) {
+        String numberStr = command.substring(1);
+        try {
+            int index = Integer.parseInt(numberStr);
+            if (index >= 0 && index < history.size()) {
+                String historyCommand = history.get(index);
+                System.out.println("Executing: " + historyCommand);
+                processCommand(historyCommand);
+            } else {
+                System.out.println("Invalid history index");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid history command");
+        }
     }
 
     private void displayHelpMenu() {
@@ -314,5 +200,4 @@ public class URLShell {
         System.out.println();
         System.out.println("Remember, with great power comes great responsibility! 🦸‍");
     }
-
 }
