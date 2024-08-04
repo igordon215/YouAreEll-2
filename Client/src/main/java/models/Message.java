@@ -71,15 +71,27 @@ Message implements Comparable<Message> {
 //        return "to: " + this.toid + "\nfrom: "+ this.fromid + "\n" + this.message + "\n----\n";
 //    }
 
+//    @Override
+//    public String toString() {
+//        return "Sequence: " + this.sequence +
+//                "\nTimestamp: " + this.timestamp +
+//                "\nFrom: " + this.fromid +
+//                "\nTo: " + this.toid +
+//                "\nMessage: " + this.message +
+//                "\n----\n";
+//    }
+
+
     @Override
     public String toString() {
         return "Sequence: " + this.sequence +
-                "\nTimestamp: " + this.timestamp +
+                "\nTimestamp: " + formatTimestamp() +
                 "\nFrom: " + this.fromid +
                 "\nTo: " + this.toid +
                 "\nMessage: " + this.message +
                 "\n----\n";
     }
+
 
     @Override
     public int compareTo(Message o) {
@@ -111,7 +123,7 @@ Message implements Comparable<Message> {
     }
 
     public String getTimestamp() {
-        return timestamp;
+        return formatTimestamp();
     }
 
     public String getSequence() {
@@ -129,7 +141,19 @@ Message implements Comparable<Message> {
     }
 
 
-
+    private String formatTimestamp() {
+        if (timestamp == null || timestamp.isEmpty()) {
+            return "N/A";
+        }
+        // Remove the 'T', and keep only year, month, day, hour, and minute
+        String[] parts = timestamp.split("T");
+        if (parts.length == 2) {
+            String date = parts[0];
+            String time = parts[1].substring(0, 5);  //  HH:MM
+            return date + " " + time;
+        }
+        return timestamp;
+    }
 
 
 }
