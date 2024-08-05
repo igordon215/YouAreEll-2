@@ -70,24 +70,37 @@ public class MessageController {
 
 
 
-
-
-
-
-
-
-
-
     public Message getMessageForSequence(String seq) {
-        String jsonInput = sc.sendRequest("/messages/" + seq, "GET", "");
-        ObjectMapper mapper = new ObjectMapper();
+        String jsonInput = sc.getMessages();
         try {
-            return mapper.readValue(jsonInput, Message.class);
+            ArrayList<Message> messages = Message.fromJsonArray(jsonInput);
+            for (Message msg : messages) {
+                if (msg.getSequence().equals(seq)) {
+                    return msg;
+                }
+            }
         } catch (JsonProcessingException e) {
-            System.out.println("Error processing JSON from response: " + e.getMessage());
+            System.out.println("Error processing JSON: " + e.getMessage());
         }
         return null;
     }
+
+
+
+
+
+
+
+//    public Message getMessageForSequence(String seq) {
+//        String jsonInput = sc.sendRequest("/messages/" + seq, "GET", "");
+//        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            return mapper.readValue(jsonInput, Message.class);
+//        } catch (JsonProcessingException e) {
+//            System.out.println("Error processing JSON from response: " + e.getMessage());
+//        }
+//        return null;
+//    }
 
 
 
