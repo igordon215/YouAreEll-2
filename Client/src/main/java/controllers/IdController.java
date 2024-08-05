@@ -48,14 +48,16 @@ public class IdController {
         return null;
     }
 
-    public Id putId(Id id, String toUpdate) {
+    public boolean putId(String github, String newName) {
         try {
-            id.setName(toUpdate);
-            sc.sendRequest("/ids", "PUT", objectMapper.writeValueAsString(id));
-            return id;
-        } catch (JsonProcessingException exception) {
-            System.out.println("Invalid ID");
-            return null;
+            String jsonBody = String.format("{\"github\":\"%s\",\"name\":\"%s\"}", github, newName);
+            String response = sc.sendRequest("/ids", "POST", jsonBody);
+            System.out.println("Server response: " + response);
+            return !response.contains("Error") && !response.contains("error");
+        } catch (Exception e) {
+            System.out.println("Error updating name: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
     }
 

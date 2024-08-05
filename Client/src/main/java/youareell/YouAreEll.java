@@ -52,8 +52,8 @@ public class YouAreEll {
     }
 
     public String putId(String github, String newName) {
-        String puttingId = tt.putId(github, newName);
-        return puttingId;
+        String result = tt.putId(github, newName);
+        return result;
     }
 
     public String postMessage(String body, String from, String to){

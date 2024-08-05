@@ -31,19 +31,13 @@ public class TransactionController {
         return "Please use a registered Github handle";
     }
 
-    public String putId(String gitID, String newName) {
-        ArrayList<Id> allIdsList = idCtrl.getIds();
-        Id idToFind = null;
-        for (Id mid : allIdsList) {
-            if (mid.getGithub().equals(gitID)) {
-                System.out.println("✅ Name Found!");
-                idToFind = mid;
-                break;
-            }
+    public String putId(String github, String newName) {
+        boolean success = idCtrl.putId(github, newName);
+        if (success) {
+            return "Name successfully updated to: " + newName + " for GitHub handle: " + github;
+        } else {
+            return "Failed to update name. Please check the server response.";
         }
-        idCtrl.putId(idToFind, newName);
-        System.out.println("Name changed = " + newName + " for provided Github handle: " + gitID);
-        return newName;
     }
 
 //    public String deleteId(String id) {
