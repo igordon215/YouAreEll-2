@@ -1,8 +1,6 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -118,11 +116,22 @@ public class MessageController {
         try {
             msg.setFromid(myId);
             msg.setToid(toId);
-            sc.sendRequest("/ids/xt0fer/messages","POST", om.writeValueAsString(msg));
-            System.out.println(om.writeValueAsString(msg));
-            return msg;
+            msg.setTimestamp(null);// null timestamp/ msg's were not posting because of expected format
+
+            String jsonBody = om.writeValueAsString(msg);
+            System.out.println("Sending to server: " + jsonBody);
+
+            String response = sc.sendRequest("/ids/" + myId + "/messages", "POST", jsonBody);
+            System.out.println("Server response: " + response);
+
+            if (response.contains("error")) {
+                System.out.println("Failed to post message. Server response: " + response);
+                return null;
+            }
+
+            return om.readValue(response, Message.class);
         } catch (JsonProcessingException exception) {
-            System.out.println("Invalid Message");
+            System.out.println("Error processing message: " + exception.getMessage());
             return null;
         }
     }

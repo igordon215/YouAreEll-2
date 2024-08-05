@@ -143,7 +143,7 @@ Message implements Comparable<Message> {
 
     private String formatTimestamp() {
         if (timestamp == null || timestamp.isEmpty()) {
-            return "N/A";
+            return "";
         }
         // Remove the 'T', and keep only year, month, day, hour, and minute
         String[] parts = timestamp.split("T");

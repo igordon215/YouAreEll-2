@@ -112,15 +112,19 @@ public class TransactionController {
 
 
 
-
-
-
-
     public String postMessage(String message, String fromID, String toID){
         Message msgTest = new Message(message,fromID,toID);
         msgCtrl.postMessage(fromID, toID, msgTest);
         return "Message posted.";
     }
+
+
+
+//    public String postMessage(String message, String fromID, String toID){
+//        Message msgTest = new Message(message,fromID,toID);
+//        msgCtrl.postMessage(fromID, toID, msgTest);
+//        return "Message posted.";
+//    }
 
 
 
